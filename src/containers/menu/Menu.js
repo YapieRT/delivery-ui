@@ -37,7 +37,7 @@ function Menu() {
     setRestaurantMeals(response.data.meals);
   };
 
-  const handlerRestaurantClick = async (restaurant) => {
+  const restaurantClickHandler = async (restaurant) => {
     try {
       setActiveRestaurant(restaurant);
       setRestaurantMeals([]);
@@ -46,11 +46,11 @@ function Menu() {
     } catch (err) {}
   };
 
-  const handlerAddToCart = (meal) => {
+  const addToCartHandler = (meal) => {
     let order = localStorage.getItem('order');
 
     if (!order) {
-      order = [{ restaurant: activeRestaurant, meal: meal, quantity: 1 }];
+      order = [{ restaurant: activeRestaurant, meal: meal.name, price: meal.price, quantity: 1 }];
     } else {
       try {
         order = JSON.parse(order);
@@ -59,63 +59,18 @@ function Menu() {
         order = [];
       }
 
-      const existingMeal = order.find((orderedMeal) => orderedMeal.meal === meal);
+      const existingMeal = order.find((orderedMeal) => orderedMeal.meal === meal.name);
 
       if (existingMeal) {
         existingMeal.quantity += 1;
       } else {
-        order.push({ restaurant: activeRestaurant, meal: meal, quantity: 1 });
+        order.push({ restaurant: activeRestaurant, meal: meal.name, price: meal.price, quantity: 1 });
       }
     }
 
     localStorage.setItem('order', JSON.stringify(order));
     console.log(localStorage.getItem('order'));
   };
-
-  //   if (localStorage.getItem('order')) {
-  //     let order = localStorage.getItem('order');
-  //     try {
-  //       order = JSON.parse(order);
-  //     } catch (error) {
-  //       console.error('Error parsing order from localStorage:', error);
-  //       order = [];
-  //     }
-  //     setActiveRestaurant(order[0].restaurant);
-  //     getMeals(activeRestaurant);
-  //     return (
-  //       <div>
-  //         <Header />
-  //         <div className={styles.elements}>
-  //           <div className={styles.restaurants}>
-  //             <div className={styles.list}>
-  //               <button
-  //                 className={`${styles.restaurantName} ${styles.active}`}
-  //                 onClick={() => handlerRestaurantClick(activeRestaurant)}
-  //               >
-  //                 {activeRestaurant.name}
-  //               </button>
-  //             </div>
-  //           </div>
-  //           <div className={styles.meals}>
-  //             <div className={styles.list}>
-  //               {chunkArray(restaurantMeals, 2).map((mealPair, index) => (
-  //                 <div className={styles.mealPair} key={index}>
-  //                   {mealPair.map((meal) => (
-  //                     <div className={styles.meal} key={meal._id}>
-  //                       {meal.name}
-  //                       <button className={styles.addButton} onClick={() => handlerAddToCart(meal.name)}>
-  //                         add to Cart
-  //                       </button>
-  //                     </div>
-  //                   ))}
-  //                 </div>
-  //               ))}
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     );
-  //   } else
   return (
     <div>
       <Header />
@@ -127,7 +82,7 @@ function Menu() {
               <button
                 id={restaurant._id}
                 className={`${styles.restaurantName} ${activeRestaurant._id === restaurant._id ? styles.active : ''}`}
-                onClick={() => handlerRestaurantClick(restaurant)}
+                onClick={() => restaurantClickHandler(restaurant)}
               >
                 {restaurant.name}
               </button>
@@ -140,10 +95,14 @@ function Menu() {
               <div className={styles.mealPair} key={index}>
                 {mealPair.map((meal) => (
                   <div className={styles.meal} key={meal._id}>
-                    {meal.name}
-                    <button className={styles.addButton} onClick={() => handlerAddToCart(meal.name)}>
-                      add to Cart
-                    </button>
+                    <img alt={meal.name} className={styles.menuImg}></img>
+                    <p className={styles.mealName}>{meal.name}</p>
+                    <div className={styles.mealBottom}>
+                      <p className={styles.price}>Price: {meal.price}$</p>
+                      <button className={styles.addButton} onClick={() => addToCartHandler(meal)}>
+                        add to Cart
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

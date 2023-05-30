@@ -12,16 +12,141 @@
         margin: 15px;
         border: 3px solid $darkAccent;
         border-radius: 15px;
-        height: 800px;
+        height: 75vh;
+        overflow: auto;
         width: 50%;
 
         .list {
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 800px;
+            height: auto;
         }
     }
 
+    .userInfoForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
+        form {
+            width: 600px;
+            height: 500px;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+
+            label {
+                margin: 20px 0 0 0;
+                display: block;
+                font-size: 24px;
+            }
+
+            input {
+                margin: 10px 0 0 0;
+                padding-left: 10px;
+                font-size: 18px;
+                min-height: 40px;
+                min-width: 600px;
+                border-radius: 15px;
+                border: 3px solid $darkAccent;
+                color: $darkAccent;
+            }
+        }
+
+    }
+
+    .order {
+        .orderedMeal {
+
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            min-width: 800px;
+            min-height: 400px;
+            margin: 20px 40px 20px 40px;
+            border: 3px solid $darkAccent;
+            border-radius: 15px;
+
+            .mealImg {
+                min-width: 400px;
+                min-height: 300px;
+                margin-left: 40px;
+            }
+
+            .mealInfo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-width: 400px;
+
+                input {
+                    border-radius: 15px;
+                    border: 2px solid $darkShades;
+                    background-color: white;
+                    color: $darkShades;
+                    margin-top: 80px;
+                    width: 200px;
+                    min-height: 60px;
+                    font-size: 24px;
+                    padding-left: 20px;
+                    text-align: center;
+                }
+
+                p {
+                    margin: 0 0 20px 0;
+                    font-size: 24px;
+                }
+            }
+
+        }
+    }
+
+}
+
+.submit {
+    display: flex;
+    align-self: flex-end;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 15px;
+
+    .submitButton {
+        border-radius: 15px;
+        border: 3px solid $darkShades;
+        background-color: white;
+        color: $darkShades;
+        min-width: 400px;
+        font-size: 32px;
+        transition: 0.5s;
+    }
+
+    h2 {
+        font-size: 32px;
+        margin-right: 40px;
+    }
+
+    .error,
+    .success {
+        position: absolute;
+        left: 30px;
+    }
+
+    .success {
+        color: $darkShades
+    }
+
+    .error {
+        color: red;
+    }
+
+    .submitButton:hover {
+        border: 3px solid $darkAccent;
+        background-color: $darkShades;
+        color: $lightShades;
+        cursor: pointer;
+    }
 }

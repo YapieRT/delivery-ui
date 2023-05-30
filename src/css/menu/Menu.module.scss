@@ -48,13 +48,13 @@
 
             .active {
                 background-color: $lightAccent;
-                color: $lighShades;
+                color: $lightShades;
             }
         }
 
         .restaurantName:hover {
             background-color: $lightAccent;
-            color: $lighShades;
+            color: $lightShades;
         }
     }
 
@@ -73,38 +73,65 @@
             .meal {
                 position: relative;
                 display: flex;
-                justify-content: center;
                 align-items: center;
+                flex-direction: column;
                 min-width: 600px;
-                min-height: 400px;
+                min-height: 500px;
                 margin: 0 40px 20px 40px;
                 border: 3px solid $darkAccent;
                 border-radius: 15px;
 
-                .addButton {
+                .mealName {
                     display: flex;
-                    font-size: 18px;
+                    margin: 0;
+                    font-size: 32px;
                     position: absolute;
-                    align-items: center;
-                    text-align: center;
-                    justify-content: center;
-
-                    min-height: 60px;
-                    min-width: 200px;
-                    border: 3px solid $darkAccent;
-                    color: $darkAccent;
-                    border-radius: 15px;
-
-                    bottom: 20px;
-                    right: 20px;
-                    transition: 0.5s;
+                    bottom: 100px;
+                    left: 40px;
                 }
 
-                .addButton:hover {
-                    cursor: pointer;
-                    background-color: $lightAccent;
-                    color: $lighShades;
+                .menuImg {
+                    width: 400px;
+                    height: 300px;
+                    margin-top: 40px;
                 }
+
+                .mealBottom {
+                    .price {
+                        display: flex;
+                        margin: 0;
+                        font-size: 28px;
+                        position: absolute;
+                        bottom: 35px;
+                        left: 40px;
+                    }
+
+                    .addButton {
+                        display: flex;
+                        font-size: 18px;
+
+                        align-items: center;
+                        text-align: center;
+                        justify-content: center;
+
+                        min-height: 60px;
+                        min-width: 200px;
+                        border: 3px solid $darkAccent;
+                        color: $darkAccent;
+                        border-radius: 15px;
+                        position: absolute;
+                        bottom: 20px;
+                        right: 20px;
+                        transition: 0.5s;
+                    }
+
+                    .addButton:hover {
+                        cursor: pointer;
+                        background-color: $lightAccent;
+                        color: $lightShades;
+                    }
+                }
+
             }
         }
     }
