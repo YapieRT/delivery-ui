@@ -1,0 +1,34 @@
+@import './variables.scss';
+
+.header {
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $darkShades;
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        ul {
+            display: flex;
+
+            li,
+            a {
+                display: flex;
+                font-size: 24px;
+                list-style: none;
+                text-decoration: none;
+                color: $mainBrand;
+                margin: 0 15px 0 0;
+                transition: 0.5s;
+            }
+
+            a:hover {
+                color: $lighShades;
+            }
+        }
+    }
+}

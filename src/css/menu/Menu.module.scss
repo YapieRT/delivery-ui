@@ -1,0 +1,111 @@
+@import '../variables.scss';
+
+.elements {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .restaurants,
+    .meals {
+        margin: 15px;
+        border: 3px solid $darkAccent;
+        border-radius: 15px;
+        height: 85vh;
+        display: flex;
+        overflow: auto;
+        align-items: center;
+
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 800px;
+        }
+    }
+
+    .restaurants {
+        padding-top: 15px;
+        width: 20%;
+        flex-direction: column;
+        align-items: center;
+
+        .list {
+            .restaurantName {
+                margin: 0;
+                margin-bottom: 10px;
+                width: 320px;
+                min-height: 60px;
+                border: 3px solid $darkAccent;
+                color: $darkAccent;
+                border-radius: 15px;
+                font-size: 24px;
+                transition: 0.5s;
+                cursor: pointer;
+            }
+
+            .active {
+                background-color: $lightAccent;
+                color: $lighShades;
+            }
+        }
+
+        .restaurantName:hover {
+            background-color: $lightAccent;
+            color: $lighShades;
+        }
+    }
+
+    .meals {
+        padding-top: 15px;
+        width: 80%;
+        justify-content: center;
+        align-items: center;
+
+
+        .mealPair {
+            display: flex;
+            width: 100%;
+            margin: auto;
+
+            .meal {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 600px;
+                min-height: 400px;
+                margin: 0 40px 20px 40px;
+                border: 3px solid $darkAccent;
+                border-radius: 15px;
+
+                .addButton {
+                    display: flex;
+                    font-size: 18px;
+                    position: absolute;
+                    align-items: center;
+                    text-align: center;
+                    justify-content: center;
+
+                    min-height: 60px;
+                    min-width: 200px;
+                    border: 3px solid $darkAccent;
+                    color: $darkAccent;
+                    border-radius: 15px;
+
+                    bottom: 20px;
+                    right: 20px;
+                    transition: 0.5s;
+                }
+
+                .addButton:hover {
+                    cursor: pointer;
+                    background-color: $lightAccent;
+                    color: $lighShades;
+                }
+            }
+        }
+    }
+}
