@@ -2,40 +2,44 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import styles from '../../css/menu/Menu.module.scss';
 import axios from 'axios';
+import lodash from 'lodash';
 
 function Menu() {
   document.title = 'Delivery - Menu';
 
-  const ip = 'http://localhost';
+  const ip = process.env.REACT_APP_BACKEND_IP;
 
   const [activeRestaurant, setActiveRestaurant] = useState({});
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantMeals, setRestaurantMeals] = useState([]);
+  const [restaurantOrdered, setRestaurantOrdered] = useState({});
+
+  const getMeals = async (restaurant) => {
+    const response = await axios.get(`${ip}/api/getRestaurantMeals?id=${restaurant._id}`);
+    setRestaurantMeals(response.data.meals);
+  };
 
   useEffect(() => {
     const getAllRestaurants = async () => {
       try {
-        const response = await axios.get(`${ip}:8000/api/getAllRestaurants`);
+        const response = await axios.get(`${ip}/api/getAllRestaurants`);
         setRestaurants(response.data.restaurants);
       } catch (err) {
         console.log(err);
       }
     };
-    getAllRestaurants();
+    const getRestaurantOrdered = async () => {
+      let order = localStorage.getItem('order');
+      if (!order) {
+        setRestaurantOrdered({});
+        return false;
+      }
+      order = JSON.parse(order);
+      setRestaurantOrdered(order[0].restaurant);
+      return true;
+    };
+    if (getRestaurantOrdered()) getAllRestaurants();
   }, []);
-
-  const chunkArray = (arr, size) => {
-    const chunkedArr = [];
-    for (let i = 0; i < arr.length; i += size) {
-      chunkedArr.push(arr.slice(i, i + size));
-    }
-    return chunkedArr;
-  };
-
-  const getMeals = async (restaurant) => {
-    const response = await axios.get(`${ip}:8000/api/getRestaurantMeals?id=${restaurant._id}`);
-    setRestaurantMeals(response.data.meals);
-  };
 
   const restaurantClickHandler = async (restaurant) => {
     try {
@@ -48,7 +52,7 @@ function Menu() {
 
   const addToCartHandler = (meal) => {
     let order = localStorage.getItem('order');
-
+    setRestaurantOrdered(activeRestaurant);
     if (!order) {
       order = [{ restaurant: activeRestaurant, meal: meal.name, price: meal.price, quantity: 1 }];
     } else {
@@ -71,6 +75,7 @@ function Menu() {
     localStorage.setItem('order', JSON.stringify(order));
     console.log(localStorage.getItem('order'));
   };
+
   return (
     <div>
       <Header />
@@ -78,20 +83,33 @@ function Menu() {
         <div className={styles.restaurants}>
           <div className={styles.list}>
             {' '}
-            {restaurants.map((restaurant) => (
+            {!lodash.isEmpty(restaurantOrdered) ? (
               <button
-                id={restaurant._id}
-                className={`${styles.restaurantName} ${activeRestaurant._id === restaurant._id ? styles.active : ''}`}
-                onClick={() => restaurantClickHandler(restaurant)}
+                id={restaurantOrdered._id}
+                className={`${styles.restaurantName} ${
+                  activeRestaurant._id === restaurantOrdered._id ? styles.active : ''
+                }`}
+                onClick={() => restaurantClickHandler(restaurantOrdered)}
               >
-                {restaurant.name}
+                {' '}
+                {restaurantOrdered.name}
               </button>
-            ))}
+            ) : (
+              restaurants.map((restaurant) => (
+                <button
+                  id={restaurant._id}
+                  className={`${styles.restaurantName} ${activeRestaurant._id === restaurant._id ? styles.active : ''}`}
+                  onClick={() => restaurantClickHandler(restaurant)}
+                >
+                  {restaurant.name}
+                </button>
+              ))
+            )}
           </div>
         </div>
         <div className={styles.meals}>
           <div className={styles.list}>
-            {chunkArray(restaurantMeals, 2).map((mealPair, index) => (
+            {lodash.chunk(restaurantMeals, 2).map((mealPair, index) => (
               <div className={styles.mealPair} key={index}>
                 {mealPair.map((meal) => (
                   <div className={styles.meal} key={meal._id}>

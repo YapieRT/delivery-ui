@@ -2,11 +2,13 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import styles from '../../css/cart/Cart.module.scss';
 import React, { useState, useEffect } from 'react';
+import lodash from 'lodash';
 
 function Cart() {
   document.title = 'Delivery - Cart';
 
-  const ip = 'http://localhost';
+  const ip = process.env.REACT_APP_BACKEND_IP;
+  console.log(ip);
 
   const [clientInfo, setClientInfo] = useState({
     name: '',
@@ -59,13 +61,15 @@ function Cart() {
       newClientOrder[index].quantity = parseInt(event.target.value);
     }
     setClientOrder(newClientOrder);
+    console.log(newClientOrder);
+    if (lodash.isEmpty(newClientOrder)) return localStorage.removeItem('order');
     localStorage.setItem('order', JSON.stringify(newClientOrder));
     updateTotalPrice();
   };
 
   const handleSubmit = async () => {
     await axios
-      .post(`${ip}:8000/api/newOrder`, { ...clientInfo, order: clientOrder, totalPrice })
+      .post(`${ip}/api/newOrder`, { ...clientInfo, order: clientOrder, totalPrice })
       .then((response) => {
         setClientInfo({
           name: '',
